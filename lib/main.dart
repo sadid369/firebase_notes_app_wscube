@@ -1,4 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_notes_app_wscube/autrh/login_screen.dart';
+import 'package:firebase_notes_app_wscube/autrh/signup_screen.dart';
 import 'package:firebase_notes_app_wscube/firebase_options.dart';
 import 'package:firebase_notes_app_wscube/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_notes_app_wscube/autrh/login_screen.dart';
 import 'package:firebase_notes_app_wscube/models/note_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String id;
+  const HomeScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -11,10 +14,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late FirebaseFirestore db;
+  late FirebaseAuth auth;
   @override
   void initState() {
     super.initState();
     db = FirebaseFirestore.instance;
+    auth = FirebaseAuth.instance;
   }
 
   var titleController = TextEditingController();
@@ -22,8 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                auth.signOut();
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ));
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
       body: FutureBuilder(
-        future: db.collection('notes').get(),
+        future: db.collection('users').doc(widget.id).collection('notes').get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -85,6 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ElevatedButton(
                       onPressed: () {
                         db
+                            .collection('users')
+                            .doc(widget.id)
                             .collection('notes')
                             .add(NoteModel(
                                     title: titleController.text.toString(),
