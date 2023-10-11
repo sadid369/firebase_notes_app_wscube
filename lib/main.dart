@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_notes_app_wscube/autrh/login_screen.dart';
+import 'package:firebase_notes_app_wscube/autrh/otp_screen.dart';
 import 'package:firebase_notes_app_wscube/autrh/signup_screen.dart';
 import 'package:firebase_notes_app_wscube/firebase_options.dart';
 import 'package:firebase_notes_app_wscube/home_screen.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(),
+      home: const OtpScreen(title: 'otp'),
     );
   }
 }
